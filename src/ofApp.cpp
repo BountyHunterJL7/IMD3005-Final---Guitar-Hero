@@ -8,8 +8,12 @@ using namespace std;
 void ofApp::setup()
 {
     ofSetWindowShape(1280, 720);
+	m_soundPlayer_Song.load("feelgloop.mp3");
+	m_soundPlayer_Song.play();
 	m_soundPlayer.load("feelgloop.mp3");
 	m_soundPlayer.play();
+	m_soundPlayer.setPositionMS(1100);
+	m_soundPlayer.setVolume(0);
 	m_audioAnalyser.init(&m_soundPlayer, 20);
     
     m_font.load( "franklinGothic.otf", 16 );
@@ -124,16 +128,17 @@ void ofApp::draw()
 	float greenSpawn = m_audioAnalyser.getLinearAverage(1);
 	if (greenSpawn >= 200.0f && !greenMax) {
 		noteList.push_back(new note());
-		newNote->draw();
+		//newNote->draw();
+		noteList[temp]->setup("green");
 		greenMax = true;
 		cout << noteList[temp];
 		temp++;
+		nextNote++;
 	}
 	else if (greenSpawn < 1) {
 		greenMax = false;
 	}
 	for (int i = 0; i < noteList.size(); i++) {
-		noteList[i]->setup("green");
 		noteList[i]->draw();
 	}
 
@@ -233,7 +238,7 @@ void ofApp::analogPinChanged(const int & pinNum) {
 		//send out pmw value
 		m_arduino.sendPwm(PIN_PWM_OUTPUT, (int)m_input_val_button);
 	}
-	if (((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((newNote->m_Pos.y < m_greenCheckPos.y + 20) && (newNote->m_Pos.y > m_greenCheckPos.y - 20)) && ((newNote->m_Pos.x < m_greenCheckPos.x + 20) && (newNote->m_Pos.x > m_greenCheckPos.x - 20))) { // checks red strum
+	if (((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((noteList[nextNote - 1]->m_Pos.y < m_greenCheckPos.y + 20) && (noteList[nextNote - 1]->m_Pos.y > m_greenCheckPos.y - 20)) && ((newNote->m_Pos.x < m_greenCheckPos.x + 20) && (newNote->m_Pos.x > m_greenCheckPos.x - 20))) { // checks red strum
 		cout << "GREEN POINT" << endl;
 		score += 100;
 	}

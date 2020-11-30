@@ -41,6 +41,7 @@ public:
 	ofVec2f m_blueCheckPos;
 
 	ofFmodSoundPlayer m_soundPlayer;
+	ofFmodSoundPlayer m_soundPlayer_Song;
 	ofSoundPlayer m_soundPlayer_OF;
 	AudioAnalyser m_audioAnalyser;
 
@@ -49,6 +50,7 @@ public:
 	vector<note*>noteList;
 	bool greenMax = false;
 	int temp = 0;
+	int nextNote = 0;
 
 	int score = 0;
 
