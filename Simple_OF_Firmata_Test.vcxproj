@@ -181,11 +181,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="note.cpp" />
+    <ClCompile Include="src\AudioAnalyser.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="note.h" />
+    <ClInclude Include="src\AudioAnalyser.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>

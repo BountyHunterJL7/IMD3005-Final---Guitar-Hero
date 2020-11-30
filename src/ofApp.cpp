@@ -8,6 +8,9 @@ using namespace std;
 void ofApp::setup()
 {
     ofSetWindowShape(1280, 720);
+	m_soundPlayer.load("feelgloop.mp3");
+	m_soundPlayer.play();
+	m_audioAnalyser.init(&m_soundPlayer, 20);
     
     m_font.load( "franklinGothic.otf", 16 );
 
@@ -24,20 +27,8 @@ void ofApp::setup()
 	m_bluePos.set(0, 0);
 	m_blueImage.setAnchorPoint(m_blueImage.getWidth() / 2, m_blueImage.getHeight() / 2);*/
 
-	srand(time(NULL));
-	random = rand() % 4 + 1;
-	if (random == 1) {
-		newNote->setup("green");
-	}
-	else if (random == 2) {
-		newNote->setup("red");
-	}
-	else if (random == 3) {
-		newNote->setup("yellow");
-	}
-	else if (random == 4) {
-		newNote->setup("blue");
-	}
+	/*srand(time(NULL));
+	random = rand() % 4 + 1;*/
 
 	m_greenCheckImage.load("check.png");
 	m_greenCheckPos.set(0, 630);
@@ -73,12 +64,15 @@ void ofApp::setup()
 void ofApp::update()
 {
     updateArduino();
+	m_audioAnalyser.update();
 	/*m_greenPos.y = m_greenPos.y+1;
 	m_redPos.y = m_redPos.y + 1;
 	m_yellowPos.y = m_yellowPos.y + 1;
 	m_bluePos.y = m_bluePos.y + 1;*/
-
-	newNote->update();
+	//newNote->update();
+	for (int i = 0; i < noteList.size(); i++) {
+		noteList[i]->update();
+	}
 }
 
 //--------------------------------------------------------------
@@ -127,7 +121,37 @@ void ofApp::draw()
 	m_blueCheckImage.draw(ofGetWindowWidth() / 2.0f + 150, 0);
 	ofPopMatrix();
 
+	float greenSpawn = m_audioAnalyser.getLinearAverage(1);
+	if (greenSpawn >= 200.0f && !greenMax) {
+		noteList.push_back(new note());
+		newNote->draw();
+		greenMax = true;
+		cout << noteList[temp];
+		temp++;
+	}
+	else if (greenSpawn < 1) {
+		greenMax = false;
+	}
+	for (int i = 0; i < noteList.size(); i++) {
+		noteList[i]->setup("green");
+		noteList[i]->draw();
+	}
+
+	/*
+	if (random == 1) {
+		newNote->setup("green");
+	}
+	else if (random == 2) {
+		newNote->setup("red");
+	}
+	else if (random == 3) {
+		newNote->setup("yellow");
+	}
+	else if (random == 4) {
+		newNote->setup("blue");
+	}
 	newNote->draw();
+	*/
 
 	/*ofPushMatrix();
 	ofTranslate(m_greenPos);
@@ -145,6 +169,8 @@ void ofApp::draw()
 	ofTranslate(m_bluePos);
 	m_blueImage.draw(ofGetWindowWidth() / 2.0f + 150, 0);
 	ofPopMatrix();*/
+
+	m_audioAnalyser.drawLinearAverages(40, 200, 1200, 128);
 
 }
 

@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofEvents.h"
 #include "note.h"
+#include "AudioAnalyser.h"
 
 namespace config {
 	static const std::string ARDUINO_DEVICE_NAME = "COM4";		//WIN
@@ -39,9 +40,15 @@ public:
 	ofImage m_blueCheckImage;
 	ofVec2f m_blueCheckPos;
 
+	ofFmodSoundPlayer m_soundPlayer;
+	ofSoundPlayer m_soundPlayer_OF;
+	AudioAnalyser m_audioAnalyser;
+
 	int random;
 	note* newNote = new note();
-	vector<note>noteList;
+	vector<note*>noteList;
+	bool greenMax = false;
+	int temp = 0;
 
 	int score = 0;
 
