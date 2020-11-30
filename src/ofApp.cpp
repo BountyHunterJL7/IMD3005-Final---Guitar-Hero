@@ -1,4 +1,7 @@
 #include "ofApp.h"
+#include <stdio.h>    
+#include <stdlib.h>     
+#include <time.h>
 using namespace std;
 
 //--------------------------------------------------------------
@@ -20,6 +23,21 @@ void ofApp::setup()
 	m_blueImage.load("blue.png");
 	m_bluePos.set(0, 0);
 	m_blueImage.setAnchorPoint(m_blueImage.getWidth() / 2, m_blueImage.getHeight() / 2);*/
+
+	srand(time(NULL));
+	random = rand() % 4 + 1;
+	if (random == 1) {
+		newNote->setup("green");
+	}
+	else if (random == 2) {
+		newNote->setup("red");
+	}
+	else if (random == 3) {
+		newNote->setup("yellow");
+	}
+	else if (random == 4) {
+		newNote->setup("blue");
+	}
 
 	m_greenCheckImage.load("check.png");
 	m_greenCheckPos.set(0, 630);
@@ -59,6 +77,8 @@ void ofApp::update()
 	m_redPos.y = m_redPos.y + 1;
 	m_yellowPos.y = m_yellowPos.y + 1;
 	m_bluePos.y = m_bluePos.y + 1;*/
+
+	newNote->update();
 }
 
 //--------------------------------------------------------------
@@ -106,6 +126,8 @@ void ofApp::draw()
 	ofTranslate(m_blueCheckPos);
 	m_blueCheckImage.draw(ofGetWindowWidth() / 2.0f + 150, 0);
 	ofPopMatrix();
+
+	newNote->draw();
 
 	/*ofPushMatrix();
 	ofTranslate(m_greenPos);
@@ -185,19 +207,19 @@ void ofApp::analogPinChanged(const int & pinNum) {
 		//send out pmw value
 		m_arduino.sendPwm(PIN_PWM_OUTPUT, (int)m_input_val_button);
 	}
-	if (((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((m_greenPos.y < m_greenCheckPos.y + 20) && (m_greenPos.y > m_greenCheckPos.y - 20))) { // checks red strum
+	if (((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((newNote->m_Pos.y < m_greenCheckPos.y + 20) && (newNote->m_Pos.y > m_greenCheckPos.y - 20)) && ((newNote->m_Pos.x < m_greenCheckPos.x + 20) && (newNote->m_Pos.x > m_greenCheckPos.x - 20))) { // checks red strum
 		cout << "GREEN POINT" << endl;
 		score += 100;
 	}
-	else if (((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((m_redPos.y < m_redCheckPos.y + 20) && (m_redPos.y > m_redCheckPos.y - 20))) { // checks red strum
+	else if (((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((newNote->m_Pos.y < m_redCheckPos.y + 20) && (newNote->m_Pos.y > m_redCheckPos.y - 20)) && ((newNote->m_Pos.x < m_redCheckPos.x + 20) && (newNote->m_Pos.x > m_redCheckPos.x - 20))) { // checks red strum
 		cout << "RED POINT" << endl;
 		score += 100;
 	}
-	else if (((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((m_yellowPos.y < m_yellowCheckPos.y + 20) && (m_yellowPos.y > m_yellowCheckPos.y - 20))) { // checks red strum
+	else if (((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((newNote->m_Pos.y < m_yellowCheckPos.y + 20) && (newNote->m_Pos.y > m_yellowCheckPos.y - 20)) && ((newNote->m_Pos.x < m_yellowCheckPos.x + 20) && (newNote->m_Pos.x > m_yellowCheckPos.x - 20))) { // checks red strum
 		cout << "YELLOW POINT" << endl;
 		score += 100;
 	}
-	else if (((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 110)) && ((m_bluePos.y < m_blueCheckPos.y + 20) && (m_bluePos.y > m_blueCheckPos.y - 20))) { // checks red strum
+	else if (((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 110)) && ((newNote->m_Pos.y < m_blueCheckPos.y + 20) && (newNote->m_Pos.y > m_blueCheckPos.y - 20)) && ((newNote->m_Pos.x < m_blueCheckPos.x + 20) && (newNote->m_Pos.x > m_blueCheckPos.x - 20))) { // checks red strum
 		cout << "BLUE POINT" << endl;
 		score += 100;
 	}

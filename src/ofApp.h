@@ -39,7 +39,9 @@ public:
 	ofImage m_blueCheckImage;
 	ofVec2f m_blueCheckPos;
 
-	note* greenTest = new note();
+	int random;
+	note* newNote = new note();
+	vector<note>noteList;
 
 	int score = 0;
 
