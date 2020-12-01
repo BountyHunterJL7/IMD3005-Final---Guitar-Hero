@@ -316,27 +316,18 @@ void ofApp::analogPinChanged(const int & pinNum) {
 	if (((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((noteList[nextNote - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteList[nextNote - 1]->m_Pos.y > m_greenCheckPos.y - 40)) && ((noteList[nextNote - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteList[nextNote - 1]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
 		cout << "GREEN POINT" << endl;
 		score += 100;
-			temp--;
-			noteList.erase(noteList.end());
 	}
 	else if (((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((noteListr[nextNoter - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListr[nextNoter - 1]->m_Pos.y > m_redCheckPos.y - 40)) && ((noteListr[nextNoter - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListr[nextNoter - 1]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
 		cout << "RED POINT" << endl;
 		score += 100;
-			tempr--;
-			noteListr.erase(noteListr.end());
 	}
 	else if (((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((noteListy[nextNotey - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListy[nextNotey - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) && ((noteListy[nextNotey - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListy[nextNotey - 1]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
 		cout << "YELLOW POINT" << endl;
 		score += 100;
-			tempy--;
-			noteListy.erase(noteListy.end());
-
 	}
 	else if (((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 110)) && ((noteListb[nextNoteb - 1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListb[nextNoteb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) && ((noteListb[nextNoteb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListb[nextNoteb - 1]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
 		cout << "BLUE POINT" << endl;
 		score += 100;
-			tempb--;
-			noteListb.erase(noteListb.end());
 	}
 	else if ((m_input_val_button > 210) && (m_input_val > 150 || m_input_val < 100)) { // checks blank strum
 		cout << "MISS" << endl;
