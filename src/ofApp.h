@@ -58,6 +58,7 @@ public:
 	bool redMax = false;
 	bool yellowMax = false;
 	bool blueMax = false;
+	bool isStrum = false;
 	int temp = 0;
 	int tempr = 0;
 	int tempy = 0;

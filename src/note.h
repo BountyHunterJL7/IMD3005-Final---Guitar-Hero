@@ -5,7 +5,6 @@
 class note : public ofBaseApp
 {
 public:
-	//~note();
 	void setup(string noteColor);
 	void update();
 	void draw();
