@@ -15,6 +15,7 @@ void ofApp::setup()
 	m_soundPlayer.setPositionMS(1100);
 	m_soundPlayer.setVolume(0);
 	m_audioAnalyser.init(&m_soundPlayer, 20);
+	m_audioAnalyser_Song.init(&m_soundPlayer_Song, 20);
     
     m_font.load( "franklinGothic.otf", 16 );
 
@@ -133,11 +134,11 @@ void ofApp::draw()
 	ofPopMatrix();
     
     // remap our flex values (can check on arduino sketch as values will always vary between sensors)
-    float radius = ofMap( m_input_val, 0.0f, 255.0f, 20.0f, 150.0f);
+    /*float radius = ofMap( m_input_val, 0.0f, 255.0f, 20.0f, 150.0f);
     ofDrawCircle( 640, 400, radius );
 
 	float button = ofMap(m_input_val_button, 0.0f, 255.0f, 20.0f, 150.0f);
-	ofDrawCircle(200, 400, button);
+	ofDrawCircle(200, 400, button);*/
 
 	ofPushMatrix();
 	ofTranslate(m_greenCheckPos);
@@ -160,6 +161,17 @@ void ofApp::draw()
 	float redSpawn = m_audioAnalyser.getLinearAverage(5);
 	float yellowSpawn = m_audioAnalyser.getLinearAverage(10);
 	float blueSpawn = m_audioAnalyser.getLinearAverage(23);
+	float extra = m_audioAnalyser_Song.getLinearAverage(0);
+	float extra1 = m_audioAnalyser_Song.getLinearAverage(1);
+	float extra2 = m_audioAnalyser_Song.getLinearAverage(2);
+	float extra3 = m_audioAnalyser_Song.getLinearAverage(3);
+	ofPushMatrix();
+	ofSetColor(255, 255, 255, 255);
+	ofDrawRectangle(width / 2 - 350, height, 50, -extra); 
+	ofDrawRectangle(width / 2 - 300, height, 50, -extra1);
+	ofDrawRectangle(width / 2 - 250, height, 50, -extra2);
+	ofDrawRectangle(width / 2 - 200, height, 50, -extra3);
+	ofPopMatrix();
 	//green
 	if (greenSpawn >= 200.0f && !greenMax) {
 		noteList.push_back(new note());

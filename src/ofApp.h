@@ -44,6 +44,7 @@ public:
 	ofFmodSoundPlayer m_soundPlayer_Song;
 	ofSoundPlayer m_soundPlayer_OF;
 	AudioAnalyser m_audioAnalyser;
+	AudioAnalyser m_audioAnalyser_Song;
 
 	int width = 1024;
 	int height = 720;
