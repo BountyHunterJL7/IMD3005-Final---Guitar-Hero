@@ -77,39 +77,39 @@ void ofApp::update()
 	for (int i = 0; i < noteList.size(); i++) {
 		noteList[i]->update();
 	}
-	/*for (int i = 0; i < noteList.size(); i++) {
+	for (int i = 0; i < noteList.size(); i++) {
 		if (noteList[i]->m_Pos.y >= height) {
-			noteList.erase(noteList.end());
+			noteList.erase(noteList.begin());
 			temp--;
 		}
-	}*/
+	}
 	for (int i = 0; i < noteListr.size(); i++) {
 		noteListr[i]->update();
 	}
-	/*for (int i = 0; i < noteListr.size(); i++) {
+	for (int i = 0; i < noteListr.size(); i++) {
 		if (noteListr[i]->m_Pos.y >= height) {
-			noteListr.erase(noteListr.end());
+			noteListr.erase(noteListr.begin());
 			tempr--;
 		}
-	}*/
+	}
 	for (int i = 0; i < noteListy.size(); i++) {
 		noteListy[i]->update();
 	}
-	/*for (int i = 0; i < noteListy.size(); i++) {
+	for (int i = 0; i < noteListy.size(); i++) {
 		if (noteListy[i]->m_Pos.y >= height) {
-			noteListy.erase(noteListy.end());
+			noteListy.erase(noteListy.begin());
 			tempy--;
 		}
-	}*/
+	}
 	for (int i = 0; i < noteListb.size(); i++) {
 		noteListb[i]->update();
 	}
-	/*for (int i = 0; i < noteListb.size(); i++) {
+	for (int i = 0; i < noteListb.size(); i++) {
 		if (noteListb[i]->m_Pos.y >= height) {
-			noteListb.erase(noteListb.end());
+			noteListb.erase(noteListb.begin());
 			tempb--;
 		}
-	}*/
+	}
 }
 
 //--------------------------------------------------------------
@@ -313,32 +313,32 @@ void ofApp::analogPinChanged(const int & pinNum) {
 		//send out pmw value
 		m_arduino.sendPwm(PIN_PWM_OUTPUT, (int)m_input_val_button);
 	}
-	if (((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((noteList[nextNote - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteList[nextNote - 1]->m_Pos.y > m_greenCheckPos.y - 40)) && ((noteList[nextNote - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteList[nextNote - 1]->m_Pos.x > m_greenCheckPos.x - 40)) /*&& !isStrum*/) { // checks red strum
+	if (noteList.size() > 0 && !isStrum && ((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((noteList[temp - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteList[temp - 1]->m_Pos.y > m_greenCheckPos.y - 40)) && ((noteList[temp - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteList[temp - 1]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
 		cout << "GREEN POINT" << endl;
 		score += 100;
-		noteList[nextNote - 1]->m_Pos.y += 400;
 		isStrum = true;
+		noteList[temp - 1]->m_Pos.y = 720;
 	}
-	else if (((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((noteListr[nextNoter - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListr[nextNoter - 1]->m_Pos.y > m_redCheckPos.y - 40)) && ((noteListr[nextNoter - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListr[nextNoter - 1]->m_Pos.x > m_redCheckPos.x - 40)) /*&& !isStrum*/) { // checks red strum
+	else if (noteListr.size() > 0 && !isStrum && ((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((noteListr[tempr - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListr[tempr - 1]->m_Pos.y > m_redCheckPos.y - 40)) && ((noteListr[tempr - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListr[tempr - 1]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
 		cout << "RED POINT" << endl;
 		score += 100;
-		noteListr[nextNoter - 1]->m_Pos.y += 400;
 		isStrum = true;
+		noteListr[tempr - 1]->m_Pos.y = 720;
 	}
-	else if (((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((noteListy[nextNotey - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListy[nextNotey - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) && ((noteListy[nextNotey - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListy[nextNotey - 1]->m_Pos.x > m_yellowCheckPos.x - 40)) /*&& !isStrum*/) { // checks red strum
+	else if (noteListy.size() > 0 && !isStrum && ((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((noteListy[tempy - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListy[tempy - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) && ((noteListy[tempy - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListy[tempy - 1]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
 		cout << "YELLOW POINT" << endl;
 		score += 100;
-		noteListy[nextNotey - 1]->m_Pos.y += 400;
 		isStrum = true;
+		noteListy[tempy - 1]->m_Pos.y = 720;
 	}
-	else if (((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 110)) && ((noteListb[nextNoteb - 1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListb[nextNoteb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) && ((noteListb[nextNoteb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListb[nextNoteb - 1]->m_Pos.x > m_blueCheckPos.x - 40)) /*&& !isStrum*/) { // checks red strum
+	else if (noteListb.size() > 0 && !isStrum && ((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 100)) && ((noteListb[tempb -1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListb[tempb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) && ((noteListb[tempb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListb[tempb - 1]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
 		cout << "BLUE POINT" << endl;
 		score += 100;
-		noteListb[nextNoteb - 1]->m_Pos.y += 400;
 		isStrum = true;
+		noteListb[tempb-1]->m_Pos.y = 720;
 	}
-	else if (m_input_val < 140 && m_input_val > 110) {
-		isStrum == false;
+	if (m_input_val <= 130 && m_input_val >= 105) {
+		isStrum = false;
 	}
 	else if ((m_input_val_button > 210) && (m_input_val > 150 || m_input_val < 100)) { // checks blank strum
 		cout << "MISS" << endl;
@@ -354,4 +354,14 @@ float ofApp::getIRDistance(int & val)
 	}
 
 	return 2076.0f / (val - 11.0f);
+}
+
+void ofApp::keyPressed(int key) {
+
+	if (key == 'w') {
+		cout << "BLUE POINT" << endl;
+		score += 100;
+		isStrum = true;
+		noteListb[tempb - 1]->m_Pos.y = 720;
+	}
 }
