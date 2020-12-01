@@ -45,12 +45,27 @@ public:
 	ofSoundPlayer m_soundPlayer_OF;
 	AudioAnalyser m_audioAnalyser;
 
+	int width = 1024;
+	int height = 720;
+
 	int random;
 	note* newNote = new note();
 	vector<note*>noteList;
+	vector<note*>noteListr;
+	vector<note*>noteListy;
+	vector<note*>noteListb;
 	bool greenMax = false;
+	bool redMax = false;
+	bool yellowMax = false;
+	bool blueMax = false;
 	int temp = 0;
+	int tempr = 0;
+	int tempy = 0;
+	int tempb = 0;
 	int nextNote = 0;
+	int nextNoter = 0;
+	int nextNotey = 0;
+	int nextNoteb = 0;
 
 	int score = 0;
 

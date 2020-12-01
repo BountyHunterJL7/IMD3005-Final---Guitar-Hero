@@ -1,6 +1,12 @@
 #include "note.h"
 using namespace std;
 
+
+/*note::~note()
+{
+	delete this;
+}*/
+
 void note::setup(string noteColor)
 {
 	m_Image.load(noteColor + ".png");
