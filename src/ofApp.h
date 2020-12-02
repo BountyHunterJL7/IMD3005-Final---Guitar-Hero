@@ -64,10 +64,10 @@ public:
 	int tempr = 0;
 	int tempy = 0;
 	int tempb = 0;
-	int nextNote = 0;
-	int nextNoter = 0;
-	int nextNotey = 0;
-	int nextNoteb = 0;
+	int bump = 100;
+	int bumpr = 100;
+	int bumpy = 100;
+	int bumpb = 100;
 
 	int score = 0;
 

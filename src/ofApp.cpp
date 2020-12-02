@@ -70,6 +70,7 @@ void ofApp::update()
 {
     updateArduino();
 	m_audioAnalyser.update();
+	m_audioAnalyser_Song.update();
 	/*m_greenPos.y = m_greenPos.y+1;
 	m_redPos.y = m_redPos.y + 1;
 	m_yellowPos.y = m_yellowPos.y + 1;
@@ -142,19 +143,19 @@ void ofApp::draw()
 
 	ofPushMatrix();
 	ofTranslate(m_greenCheckPos);
-	m_greenCheckImage.draw(ofGetWindowWidth() / 2.0f - 150, 0);
+	m_greenCheckImage.draw(ofGetWindowWidth() / 2.0f - 150, 0, bump, bump);
 	ofPopMatrix();
 	ofPushMatrix();
 	ofTranslate(m_redCheckPos);
-	m_redCheckImage.draw(ofGetWindowWidth() / 2.0f - 50, 0);
+	m_redCheckImage.draw(ofGetWindowWidth() / 2.0f - 50, 0, bumpr, bumpr);
 	ofPopMatrix();
 	ofPushMatrix();
 	ofTranslate(m_yellowCheckPos);
-	m_yellowCheckImage.draw(ofGetWindowWidth() / 2.0f + 50, 0);
+	m_yellowCheckImage.draw(ofGetWindowWidth() / 2.0f + 50, 0, bumpy, bumpy);
 	ofPopMatrix();
 	ofPushMatrix();
 	ofTranslate(m_blueCheckPos);
-	m_blueCheckImage.draw(ofGetWindowWidth() / 2.0f + 150, 0);
+	m_blueCheckImage.draw(ofGetWindowWidth() / 2.0f + 150, 0, bumpb, bumpb);
 	ofPopMatrix();
 
 	float greenSpawn = m_audioAnalyser.getLinearAverage(1);
@@ -166,11 +167,16 @@ void ofApp::draw()
 	float extra2 = m_audioAnalyser_Song.getLinearAverage(2);
 	float extra3 = m_audioAnalyser_Song.getLinearAverage(3);
 	ofPushMatrix();
-	ofSetColor(255, 255, 255, 255);
+	ofSetColor(255, 255, 255, 100);
 	ofDrawRectangle(width / 2 - 350, height, 50, -extra); 
 	ofDrawRectangle(width / 2 - 300, height, 50, -extra1);
 	ofDrawRectangle(width / 2 - 250, height, 50, -extra2);
 	ofDrawRectangle(width / 2 - 200, height, 50, -extra3);
+	ofDrawRectangle(width / 2 + 550, height, 50, -extra);
+	ofDrawRectangle(width / 2 + 500, height, 50, -extra1);
+	ofDrawRectangle(width / 2 + 450, height, 50, -extra2);
+	ofDrawRectangle(width / 2 + 400, height, 50, -extra3);
+	ofSetColor(255, 255, 255, 255);
 	ofPopMatrix();
 	//green
 	if (greenSpawn >= 200.0f && !greenMax) {
@@ -178,7 +184,6 @@ void ofApp::draw()
 		noteList[temp]->setup("green");
 		greenMax = true;
 		temp++;
-		nextNote++;
 	}
 	else if (greenSpawn < 1) {
 		greenMax = false;
@@ -192,7 +197,6 @@ void ofApp::draw()
 		noteListr[tempr]->setup("red");
 		redMax = true;
 		tempr++;
-		nextNoter++;
 	}
 	else if (redSpawn < 1) {
 		redMax = false;
@@ -201,12 +205,11 @@ void ofApp::draw()
 		noteListr[i]->draw();
 	}
 	//yellow
-	if ((yellowSpawn >= 15 && yellowSpawn <= 20) && !yellowMax) {
+	if ((yellowSpawn >= 15 && yellowSpawn <= 20) && !yellowMax && !blueMax) {
 		noteListy.push_back(new note());
 		noteListy[tempy]->setup("yellow");
 		yellowMax = true;
 		tempy++;
-		nextNotey++;
 	}
 	else if (yellowSpawn < 1) {
 		yellowMax = false;
@@ -220,7 +223,6 @@ void ofApp::draw()
 		noteListb[tempb]->setup("blue");
 		blueMax = true;
 		tempb++;
-		nextNoteb++;
 	}
 	else if (blueSpawn < 1) {
 		blueMax = false;
@@ -327,30 +329,38 @@ void ofApp::analogPinChanged(const int & pinNum) {
 	}
 	if (noteList.size() > 0 && !isStrum && ((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((noteList[temp - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteList[temp - 1]->m_Pos.y > m_greenCheckPos.y - 40)) && ((noteList[temp - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteList[temp - 1]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
 		cout << "GREEN POINT" << endl;
+		bump = 150;
 		score += 100;
 		isStrum = true;
 		noteList[temp - 1]->m_Pos.y = 720;
 	}
 	else if (noteListr.size() > 0 && !isStrum && ((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((noteListr[tempr - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListr[tempr - 1]->m_Pos.y > m_redCheckPos.y - 40)) && ((noteListr[tempr - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListr[tempr - 1]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
 		cout << "RED POINT" << endl;
+		bumpr = 150;
 		score += 100;
 		isStrum = true;
 		noteListr[tempr - 1]->m_Pos.y = 720;
 	}
 	else if (noteListy.size() > 0 && !isStrum && ((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((noteListy[tempy - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListy[tempy - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) && ((noteListy[tempy - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListy[tempy - 1]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
 		cout << "YELLOW POINT" << endl;
+		bumpy = 150;
 		score += 100;
 		isStrum = true;
 		noteListy[tempy - 1]->m_Pos.y = 720;
 	}
 	else if (noteListb.size() > 0 && !isStrum && ((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 100)) && ((noteListb[tempb -1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListb[tempb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) && ((noteListb[tempb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListb[tempb - 1]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
 		cout << "BLUE POINT" << endl;
+		bumpb = 150;
 		score += 100;
 		isStrum = true;
 		noteListb[tempb-1]->m_Pos.y = 720;
 	}
 	if (m_input_val <= 130 && m_input_val >= 105) {
 		isStrum = false;
+		bump = 100;
+		bumpr = 100;
+		bumpy = 100;
+		bumpb = 100;
 	}
 	else if ((m_input_val_button > 210) && (m_input_val > 150 || m_input_val < 100)) { // checks blank strum
 		cout << "MISS" << endl;
