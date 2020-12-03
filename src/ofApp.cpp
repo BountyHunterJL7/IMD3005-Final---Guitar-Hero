@@ -383,13 +383,3 @@ float ofApp::getIRDistance(int & val)
 
 	return 2076.0f / (val - 11.0f);
 }
-
-void ofApp::keyPressed(int key) {
-
-	if (key == 'w') {
-		cout << "BLUE POINT" << endl;
-		score += 100;
-		isStrum = true;
-		noteListb[tempb - 1]->m_Pos.y = 720;
-	}
-}

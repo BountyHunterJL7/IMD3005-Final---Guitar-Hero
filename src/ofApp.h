@@ -82,6 +82,5 @@ public:
     void digitalPinChanged(const int & pinNum);
     void analogPinChanged(const int & pinNum);
 	float getIRDistance(int & val);
-	void keyPressed(int key);
 };
 
