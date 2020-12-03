@@ -118,6 +118,7 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofBackground( 0, 0, 0 );
+
     
    /* ofEnableAlphaBlending();
     ofSetColor( 0, 0, 0, 127 );
@@ -140,6 +141,11 @@ void ofApp::draw()
 
 	float button = ofMap(m_input_val_button, 0.0f, 255.0f, 20.0f, 150.0f);
 	ofDrawCircle(200, 400, button);*/
+
+	ofPushMatrix();
+	ofSetColor(255, 255, 255, 90);
+	ofDrawRectangle(width / 2 - 75, 0, 405, height);
+	ofPopMatrix();
 
 	ofPushMatrix();
 	ofTranslate(m_greenCheckPos);
