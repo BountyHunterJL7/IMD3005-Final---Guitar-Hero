@@ -8,32 +8,20 @@ using namespace std;
 void ofApp::setup()
 {
     ofSetWindowShape(1280, 720);
-	m_soundPlayer_Song.load("feelgloop.mp3");
-	m_soundPlayer_Song.play();
-	m_soundPlayer.load("feelgloop.mp3");
-	m_soundPlayer.play();
+	m_soundPlayer_Song.load("feel_gloop_grid.mp3");
+	m_soundPlayer.load("feel_gloop_grid.mp3");
 	m_soundPlayer.setPositionMS(1100);
-	m_soundPlayer.setVolume(0);
+	//m_soundPlayer.setVolume(0);
+	m_soundPlayer_Song.setVolume(0);
 	m_audioAnalyser.init(&m_soundPlayer, 20);
 	m_audioAnalyser_Song.init(&m_soundPlayer_Song, 20);
+
+
+	//playing both sound players
+	m_soundPlayer_Song.play();
+	m_soundPlayer.play();
     
     m_font.load( "franklinGothic.otf", 16 );
-
-	/*m_greenImage.load("green.png");
-	m_greenPos.set(0,0);
-	m_greenImage.setAnchorPoint(m_greenImage.getWidth() / 2, m_greenImage.getHeight() / 2);
-	m_redImage.load("red.png");
-	m_redPos.set(0, 0);
-	m_redImage.setAnchorPoint(m_redImage.getWidth() / 2, m_redImage.getHeight() / 2);
-	m_yellowImage.load("yellow.png");
-	m_yellowPos.set(0, 0);
-	m_yellowImage.setAnchorPoint(m_yellowImage.getWidth() / 2, m_yellowImage.getHeight() / 2);
-	m_blueImage.load("blue.png");
-	m_bluePos.set(0, 0);
-	m_blueImage.setAnchorPoint(m_blueImage.getWidth() / 2, m_blueImage.getHeight() / 2);*/
-
-	/*srand(time(NULL));
-	random = rand() % 4 + 1;*/
 
 	m_greenCheckImage.load("check.png");
 	m_greenCheckPos.set(0, 630);
@@ -63,6 +51,11 @@ void ofApp::setup()
 	ofAddListener(m_arduino.EInitialized, this, &ofApp::setupArduino);
 
 	m_bSetup = false;
+
+
+	//setting up BPM beats in MS
+	m_metronome.load("click.wav");
+	m_bpm = 214;
 }
 
 //--------------------------------------------------------------
@@ -71,44 +64,39 @@ void ofApp::update()
     updateArduino();
 	m_audioAnalyser.update();
 	m_audioAnalyser_Song.update();
-	/*m_greenPos.y = m_greenPos.y+1;
-	m_redPos.y = m_redPos.y + 1;
-	m_yellowPos.y = m_yellowPos.y + 1;
-	m_bluePos.y = m_bluePos.y + 1;*/
-	//newNote->update();
-	for (int i = 0; i < noteList.size(); i++) {
-		noteList[i]->update();
+	for (int i = 0; i < noteListG.size(); i++) {
+		noteListG[i]->update();
 	}
-	for (int i = 0; i < noteList.size(); i++) {
-		if (noteList[i]->m_Pos.y >= height) {
-			noteList.erase(noteList.begin());
+	for (int i = 0; i < noteListG.size(); i++) {
+		if (noteListG[i]->m_Pos.y >= height) {
+			noteListG.erase(noteListG.begin());
 			temp--;
 		}
 	}
-	for (int i = 0; i < noteListr.size(); i++) {
-		noteListr[i]->update();
+	for (int i = 0; i < noteListR.size(); i++) {
+		noteListR[i]->update();
 	}
-	for (int i = 0; i < noteListr.size(); i++) {
-		if (noteListr[i]->m_Pos.y >= height) {
-			noteListr.erase(noteListr.begin());
+	for (int i = 0; i < noteListR.size(); i++) {
+		if (noteListR[i]->m_Pos.y >= height) {
+			noteListR.erase(noteListR.begin());
 			tempr--;
 		}
 	}
-	for (int i = 0; i < noteListy.size(); i++) {
-		noteListy[i]->update();
+	for (int i = 0; i < noteListY.size(); i++) {
+		noteListY[i]->update();
 	}
-	for (int i = 0; i < noteListy.size(); i++) {
-		if (noteListy[i]->m_Pos.y >= height) {
-			noteListy.erase(noteListy.begin());
+	for (int i = 0; i < noteListY.size(); i++) {
+		if (noteListY[i]->m_Pos.y >= height) {
+			noteListY.erase(noteListY.begin());
 			tempy--;
 		}
 	}
-	for (int i = 0; i < noteListb.size(); i++) {
-		noteListb[i]->update();
+	for (int i = 0; i < noteListB.size(); i++) {
+		noteListB[i]->update();
 	}
-	for (int i = 0; i < noteListb.size(); i++) {
-		if (noteListb[i]->m_Pos.y >= height) {
-			noteListb.erase(noteListb.begin());
+	for (int i = 0; i < noteListB.size(); i++) {
+		if (noteListB[i]->m_Pos.y >= height) {
+			noteListB.erase(noteListB.begin());
 			tempb--;
 		}
 	}
@@ -119,17 +107,6 @@ void ofApp::draw()
 {
     ofBackground( 0, 0, 0 );
 
-    
-   /* ofEnableAlphaBlending();
-    ofSetColor( 0, 0, 0, 127 );
-    ofDrawRectangle( 510, 15, 275, 150 );
-    ofDisableAlphaBlending();
-    
-    ofSetColor( 255, 255, 255 );
-    
-    // Draw sensor input values
-    m_font.drawString( "Sensor Value: " + ofToString( m_input_val_button ), 530, 105 );
-	m_font.drawString("Sensor Value: " + ofToString(m_input_val), 530, 120);*/
 	ofPushMatrix();
 	ofSetColor(255,255,255,255);
 	m_font.drawString("Score: " + ofToString(score), 1000, 120);
@@ -184,93 +161,78 @@ void ofApp::draw()
 	ofDrawRectangle(width / 2 + 400, height, 50, -extra3);
 	ofSetColor(255, 255, 255, 255);
 	ofPopMatrix();
-	//green
-	if (greenSpawn >= 200.0f && !greenMax) {
-		noteList.push_back(new note());
-		noteList[temp]->setup("green");
-		greenMax = true;
-		temp++;
+
+	//triggers only on beat
+	if ((m_soundPlayer.getPositionMS() - 80) % m_bpm <= 30 && m_soundPlayer.getPositionMS() - lastMS > 100) {
+		cout << m_soundPlayer.getPositionMS() % m_bpm << "!\n";
+		m_metronome.play();
+		lastMS = m_soundPlayer.getPositionMS();
+		bool noteMax = false; //used to make sure 2 notes aren't generated at the same time
+
+		//generating notes 
+		if (greenSpawn >= 100.0f && !greenMax && !noteMax) {
+			noteListG.push_back(new note());
+			noteListG[temp]->setup("green");
+			greenMax = true;
+			temp++;
+			noteMax = true; //our note for this beat has been generated
+		} 
+		else if ((redSpawn >= 40.0f) && !redMax && !noteMax) {
+			noteListR.push_back(new note());
+			noteListR[tempr]->setup("red");
+			redMax = true;
+			tempr++;
+			noteMax = true;
+		} 
+		else if ((yellowSpawn >= 15 && yellowSpawn <= 20) && !yellowMax && !blueMax && !noteMax) {
+			noteListY.push_back(new note());
+			noteListY[tempy]->setup("yellow");
+			yellowMax = true;
+			tempy++;
+			noteMax = true;
+		} 
+		else if ((blueSpawn >= 10 && blueSpawn <= 23) && !blueMax && !yellowMax && !noteMax) {
+			noteListB.push_back(new note());
+			noteListB[tempb]->setup("blue");
+			blueMax = true;
+			tempb++;
+			noteMax = true;
+		}
 	}
-	else if (greenSpawn < 1) {
+	//resetting the note generator bools if selected frequency volume is less than a specified value 
+	if (greenSpawn < 50.0f) {
+		cout << "green below!\n";
 		greenMax = false;
 	}
-	for (int i = 0; i < noteList.size(); i++) {
-		noteList[i]->draw();
-	}
-	//red
-	if ((redSpawn >= 40 && redSpawn <= 50) && !redMax) {
-		noteListr.push_back(new note());
-		noteListr[tempr]->setup("red");
-		redMax = true;
-		tempr++;
-	}
-	else if (redSpawn < 1) {
+
+	if (redSpawn < 10.0f) {
+		cout << "red below!\n";
 		redMax = false;
 	}
-	for (int i = 0; i < noteListr.size(); i++) {
-		noteListr[i]->draw();
-	}
-	//yellow
-	if ((yellowSpawn >= 15 && yellowSpawn <= 20) && !yellowMax && !blueMax) {
-		noteListy.push_back(new note());
-		noteListy[tempy]->setup("yellow");
-		yellowMax = true;
-		tempy++;
-	}
-	else if (yellowSpawn < 1) {
+
+	if (yellowSpawn < 10.0f) {
 		yellowMax = false;
 	}
-	for (int i = 0; i < noteListy.size(); i++) {
-		noteListy[i]->draw();
-	}
-	//blue
-	if ((blueSpawn >= 10 && blueSpawn <= 23)&& !blueMax && !yellowMax) {
-		noteListb.push_back(new note());
-		noteListb[tempb]->setup("blue");
-		blueMax = true;
-		tempb++;
-	}
-	else if (blueSpawn < 1) {
+
+	if (blueSpawn < 10.0f) {
 		blueMax = false;
 	}
-	for (int i = 0; i < noteListb.size(); i++) {
-		noteListb[i]->draw();
-	}
 
-	/*
-	if (random == 1) {
-		newNote->setup("green");
-	}
-	else if (random == 2) {
-		newNote->setup("red");
-	}
-	else if (random == 3) {
-		newNote->setup("yellow");
-	}
-	else if (random == 4) {
-		newNote->setup("blue");
-	}
-	newNote->draw();
-	*/
 
-	/*ofPushMatrix();
-	ofTranslate(m_greenPos);
-	m_greenImage.draw(ofGetWindowWidth() / 2.0f - 150, 0);
-	ofPopMatrix();
-	ofPushMatrix();
-	ofTranslate(m_redPos);
-	m_redImage.draw(ofGetWindowWidth() / 2.0f - 50, 0);
-	ofPopMatrix();
-	ofPushMatrix();
-	ofTranslate(m_yellowPos);
-	m_yellowImage.draw(ofGetWindowWidth() / 2.0f + 50, 0);
-	ofPopMatrix();
-	ofPushMatrix();
-	ofTranslate(m_bluePos);
-	m_blueImage.draw(ofGetWindowWidth() / 2.0f + 150, 0);
-	ofPopMatrix();*/
 
-	//m_audioAnalyser.drawLinearAverages(40, 200, 1200, 128);
+	//looping through all note lists and updating their positions
+	for (int i = 0; i < noteListG.size(); i++) {
+		noteListG[i]->draw();
+	}
+	for (int i = 0; i < noteListR.size(); i++) {
+		noteListR[i]->draw();
+	}
+	for (int i = 0; i < noteListY.size(); i++) {
+		noteListY[i]->draw();
+	}
+	for (int i = 0; i < noteListB.size(); i++) {
+		noteListB[i]->draw();
+	}
 
 }
 
@@ -333,33 +295,49 @@ void ofApp::analogPinChanged(const int & pinNum) {
 		//send out pmw value
 		m_arduino.sendPwm(PIN_PWM_OUTPUT, (int)m_input_val_button);
 	}
-	if (noteList.size() > 0 && !isStrum && ((m_input_val_button > 180 && m_input_val_button < 200) && (m_input_val > 140 || m_input_val < 110)) && ((noteList[temp - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteList[temp - 1]->m_Pos.y > m_greenCheckPos.y - 40)) && ((noteList[temp - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteList[temp - 1]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
+	if (noteListG.size() > 0 && !isStrum && ((m_input_val_button > 180 && m_input_val_button < 200) 
+		&& (m_input_val > 140 || m_input_val < 110)) 
+		&& ((noteListG[temp - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteListG[temp - 1]->m_Pos.y > m_greenCheckPos.y - 40)) 
+		&& ((noteListG[temp - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteListG[temp - 1]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
+
 		cout << "GREEN POINT" << endl;
 		bump = 150;
 		score += 100;
 		isStrum = true;
-		noteList[temp - 1]->m_Pos.y = 720;
+		noteListG[temp - 1]->m_Pos.y = 720;
 	}
-	else if (noteListr.size() > 0 && !isStrum && ((m_input_val_button > 150 && m_input_val_button < 180) && (m_input_val > 140 || m_input_val < 110)) && ((noteListr[tempr - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListr[tempr - 1]->m_Pos.y > m_redCheckPos.y - 40)) && ((noteListr[tempr - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListr[tempr - 1]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
+	else if (noteListR.size() > 0 && !isStrum && ((m_input_val_button > 150 && m_input_val_button < 180) 
+		&& (m_input_val > 140 || m_input_val < 110)) 
+		&& ((noteListR[tempr - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListR[tempr - 1]->m_Pos.y > m_redCheckPos.y - 40)) 
+		&& ((noteListR[tempr - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListR[tempr - 1]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
+
 		cout << "RED POINT" << endl;
 		bumpr = 150;
 		score += 100;
 		isStrum = true;
-		noteListr[tempr - 1]->m_Pos.y = 720;
+		noteListR[tempr - 1]->m_Pos.y = 720;
 	}
-	else if (noteListy.size() > 0 && !isStrum && ((m_input_val_button > 100 && m_input_val_button < 140) && (m_input_val > 140 || m_input_val < 110)) && ((noteListy[tempy - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListy[tempy - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) && ((noteListy[tempy - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListy[tempy - 1]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
+	else if (noteListY.size() > 0 && !isStrum && ((m_input_val_button > 100 && m_input_val_button < 140) 
+		&& (m_input_val > 140 || m_input_val < 110)) 
+		&& ((noteListY[tempy - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListY[tempy - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) 
+		&& ((noteListY[tempy - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListY[tempy - 1]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
+
 		cout << "YELLOW POINT" << endl;
 		bumpy = 150;
 		score += 100;
 		isStrum = true;
-		noteListy[tempy - 1]->m_Pos.y = 720;
+		noteListY[tempy - 1]->m_Pos.y = 720;
 	}
-	else if (noteListb.size() > 0 && !isStrum && ((m_input_val_button >= 0 && m_input_val_button < 25) && (m_input_val > 140 || m_input_val < 100)) && ((noteListb[tempb -1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListb[tempb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) && ((noteListb[tempb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListb[tempb - 1]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
+	else if (noteListB.size() > 0 && !isStrum && ((m_input_val_button >= 0 && m_input_val_button < 25) 
+		&& (m_input_val > 140 || m_input_val < 100)) 
+		&& ((noteListB[tempb -1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListB[tempb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) 
+		&& ((noteListB[tempb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListB[tempb - 1]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
+
 		cout << "BLUE POINT" << endl;
 		bumpb = 150;
 		score += 100;
 		isStrum = true;
-		noteListb[tempb-1]->m_Pos.y = 720;
+		noteListB[tempb-1]->m_Pos.y = 720;
 	}
 	if (m_input_val <= 130 && m_input_val >= 105) {
 		isStrum = false;
@@ -371,15 +349,4 @@ void ofApp::analogPinChanged(const int & pinNum) {
 	else if ((m_input_val_button > 210) && (m_input_val > 150 || m_input_val < 100)) { // checks blank strum
 		cout << "MISS" << endl;
 	}		
-}
-
-//!!convert voltage signal into a readable result distance in cm (convenience function for for distance sensor - from IR sensor specs)
-float ofApp::getIRDistance(int & val)
-{
-	if (val < 16)
-	{
-		val = 16;
-	}
-
-	return 2076.0f / (val - 11.0f);
 }

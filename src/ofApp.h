@@ -22,15 +22,6 @@ public:
     void update();
     void draw();
 
-	/*ofImage m_greenImage;
-	ofVec2f m_greenPos;
-	ofImage m_redImage;
-	ofVec2f m_redPos;
-	ofImage m_yellowImage;
-	ofVec2f m_yellowPos;
-	ofImage m_blueImage;
-	ofVec2f m_bluePos;*/
-
 	ofImage m_greenCheckImage;
 	ofVec2f m_greenCheckPos;
 	ofImage m_redCheckImage;
@@ -40,8 +31,14 @@ public:
 	ofImage m_blueCheckImage;
 	ofVec2f m_blueCheckPos;
 
-	ofFmodSoundPlayer m_soundPlayer;
-	ofFmodSoundPlayer m_soundPlayer_Song;
+	ofFmodSoundPlayer m_soundPlayer; //finds song frequencys to generate notes
+	ofFmodSoundPlayer m_soundPlayer_Song; //audible delayed track
+
+
+	///TEMP!!!
+	ofFmodSoundPlayer m_metronome;
+	int m_bpm;
+	int lastMS;
 	ofSoundPlayer m_soundPlayer_OF;
 	AudioAnalyser m_audioAnalyser;
 	AudioAnalyser m_audioAnalyser_Song;
@@ -49,12 +46,13 @@ public:
 	int width = 1024;
 	int height = 720;
 
+	//note variables
 	int random;
 	note* newNote = new note();
-	vector<note*>noteList;
-	vector<note*>noteListr;
-	vector<note*>noteListy;
-	vector<note*>noteListb;
+	vector<note*>noteListG;
+	vector<note*>noteListR;
+	vector<note*>noteListY;
+	vector<note*>noteListB;
 	bool greenMax = false;
 	bool redMax = false;
 	bool yellowMax = false;
@@ -64,6 +62,8 @@ public:
 	int tempr = 0;
 	int tempy = 0;
 	int tempb = 0;
+
+	//default note check size
 	int bump = 100;
 	int bumpr = 100;
 	int bumpy = 100;
@@ -81,6 +81,5 @@ public:
 	void updateArduino();
     void digitalPinChanged(const int & pinNum);
     void analogPinChanged(const int & pinNum);
-	float getIRDistance(int & val);
 };
 
