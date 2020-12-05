@@ -10,16 +10,17 @@ void ofApp::setup()
     ofSetWindowShape(1280, 720);
 	m_soundPlayer_Song.load("feel_gloop_grid.mp3");
 	m_soundPlayer.load("feel_gloop_grid.mp3");
+	//playing both sound players
+	m_soundPlayer_Song.play();
+	m_soundPlayer.play();
 	m_soundPlayer.setPositionMS(1100);
-	//m_soundPlayer.setVolume(0);
-	m_soundPlayer_Song.setVolume(0);
+	m_soundPlayer.setVolume(0);
+	//m_soundPlayer_Song.setVolume(0);
 	m_audioAnalyser.init(&m_soundPlayer, 20);
 	m_audioAnalyser_Song.init(&m_soundPlayer_Song, 20);
 
 
-	//playing both sound players
-	m_soundPlayer_Song.play();
-	m_soundPlayer.play();
+
     
     m_font.load( "franklinGothic.otf", 16 );
 
@@ -297,47 +298,47 @@ void ofApp::analogPinChanged(const int & pinNum) {
 	}
 	if (noteListG.size() > 0 && !isStrum && ((m_input_val_button > 180 && m_input_val_button < 200) 
 		&& (m_input_val > 140 || m_input_val < 110)) 
-		&& ((noteListG[temp - 1]->m_Pos.y < m_greenCheckPos.y + 40) && (noteListG[temp - 1]->m_Pos.y > m_greenCheckPos.y - 40)) 
-		&& ((noteListG[temp - 1]->m_Pos.x < m_greenCheckPos.x + 40) && (noteListG[temp - 1]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
+		&& ((noteListG[0]->m_Pos.y < m_greenCheckPos.y + 40) && (noteListG[0]->m_Pos.y > m_greenCheckPos.y - 40)) 
+		&& ((noteListG[0]->m_Pos.x < m_greenCheckPos.x + 40) && (noteListG[0]->m_Pos.x > m_greenCheckPos.x - 40))) { // checks red strum
 
 		cout << "GREEN POINT" << endl;
 		bump = 150;
 		score += 100;
 		isStrum = true;
-		noteListG[temp - 1]->m_Pos.y = 720;
+		noteListG[0]->m_Pos.y = 720;
 	}
 	else if (noteListR.size() > 0 && !isStrum && ((m_input_val_button > 150 && m_input_val_button < 180) 
 		&& (m_input_val > 140 || m_input_val < 110)) 
-		&& ((noteListR[tempr - 1]->m_Pos.y < m_redCheckPos.y + 40) && (noteListR[tempr - 1]->m_Pos.y > m_redCheckPos.y - 40)) 
-		&& ((noteListR[tempr - 1]->m_Pos.x < m_redCheckPos.x + 40) && (noteListR[tempr - 1]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
+		&& ((noteListR[0]->m_Pos.y < m_redCheckPos.y + 40) && (noteListR[0]->m_Pos.y > m_redCheckPos.y - 40)) 
+		&& ((noteListR[0]->m_Pos.x < m_redCheckPos.x + 40) && (noteListR[0]->m_Pos.x > m_redCheckPos.x - 40))) { // checks red strum
 
 		cout << "RED POINT" << endl;
 		bumpr = 150;
 		score += 100;
 		isStrum = true;
-		noteListR[tempr - 1]->m_Pos.y = 720;
+		noteListR[0]->m_Pos.y = 720;
 	}
 	else if (noteListY.size() > 0 && !isStrum && ((m_input_val_button > 100 && m_input_val_button < 140) 
 		&& (m_input_val > 140 || m_input_val < 110)) 
-		&& ((noteListY[tempy - 1]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListY[tempy - 1]->m_Pos.y > m_yellowCheckPos.y - 40)) 
-		&& ((noteListY[tempy - 1]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListY[tempy - 1]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
+		&& ((noteListY[0]->m_Pos.y < m_yellowCheckPos.y + 40) && (noteListY[0]->m_Pos.y > m_yellowCheckPos.y - 40)) 
+		&& ((noteListY[0]->m_Pos.x < m_yellowCheckPos.x + 40) && (noteListY[0]->m_Pos.x > m_yellowCheckPos.x - 40))) { // checks red strum
 
 		cout << "YELLOW POINT" << endl;
 		bumpy = 150;
 		score += 100;
 		isStrum = true;
-		noteListY[tempy - 1]->m_Pos.y = 720;
+		noteListY[0]->m_Pos.y = 720;
 	}
 	else if (noteListB.size() > 0 && !isStrum && ((m_input_val_button >= 0 && m_input_val_button < 25) 
 		&& (m_input_val > 140 || m_input_val < 100)) 
-		&& ((noteListB[tempb -1]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListB[tempb - 1]->m_Pos.y > m_blueCheckPos.y - 40)) 
-		&& ((noteListB[tempb - 1]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListB[tempb - 1]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
+		&& ((noteListB[0]->m_Pos.y < m_blueCheckPos.y + 40) && (noteListB[0]->m_Pos.y > m_blueCheckPos.y - 40)) 
+		&& ((noteListB[0]->m_Pos.x < m_blueCheckPos.x + 40) && (noteListB[0]->m_Pos.x > m_blueCheckPos.x - 40))) { // checks red strum
 
 		cout << "BLUE POINT" << endl;
 		bumpb = 150;
 		score += 100;
 		isStrum = true;
-		noteListB[tempb-1]->m_Pos.y = 720;
+		noteListB[0]->m_Pos.y = 720;
 	}
 	if (m_input_val <= 130 && m_input_val >= 105) {
 		isStrum = false;

@@ -81,5 +81,6 @@ public:
 	void updateArduino();
     void digitalPinChanged(const int & pinNum);
     void analogPinChanged(const int & pinNum);
+	void keyPressed(int key);
 };
 
