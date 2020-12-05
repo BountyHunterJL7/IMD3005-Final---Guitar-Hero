@@ -165,7 +165,6 @@ void ofApp::draw()
 
 	//triggers only on beat
 	if ((m_soundPlayer.getPositionMS() - 80) % m_bpm <= 30 && m_soundPlayer.getPositionMS() - lastMS > 100) {
-		cout << m_soundPlayer.getPositionMS() % m_bpm << "!\n";
 		m_metronome.play();
 		lastMS = m_soundPlayer.getPositionMS();
 		bool noteMax = false; //used to make sure 2 notes aren't generated at the same time
@@ -202,12 +201,10 @@ void ofApp::draw()
 	}
 	//resetting the note generator bools if selected frequency volume is less than a specified value 
 	if (greenSpawn < 50.0f) {
-		cout << "green below!\n";
 		greenMax = false;
 	}
 
 	if (redSpawn < 10.0f) {
-		cout << "red below!\n";
 		redMax = false;
 	}
 
